@@ -21,8 +21,8 @@ class Widget(object):
 
                 s.QUIT.pack()
 
-                s.app = cls(s, width=1024, height=512)
-                s.app.pack(fill=X, expand=True)
+                s.app = cls(s, width=512, height=512)
+                s.app.pack()
                 s.app.simulate()
 
         root = Tk()

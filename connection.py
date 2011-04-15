@@ -3,7 +3,7 @@ import threading
 import Queue as queue
 
 def serial_connection(url='/dev/ttyS1', rate=19200):
-    ser = serial.serial_for_url(url)
+    ser = serial.Serial()
     ser.port = url
     ser.baudrate = rate
     ser.timeout = 1

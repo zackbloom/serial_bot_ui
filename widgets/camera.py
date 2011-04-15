@@ -4,10 +4,11 @@ from random import randint
 from base import Widget
 
 class CameraFrame(Widget, Canvas):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, parent=None, num_tiles=128, *args, **kwargs):
         Widget.__init__(self)
-        Canvas.__init__(self, borderwidth=0, *args, **kwargs)
+        Canvas.__init__(self, parent, borderwidth=0, *args, **kwargs)
 
+        self.num_tiles = num_tiles
         self.items = []
 
     @staticmethod
@@ -24,7 +25,7 @@ class CameraFrame(Widget, Canvas):
 
         PAD = 0
 
-        width = (int(self.cget('width')) / 128.0) - 2 * PAD
+        width = (int(self.cget('width')) / float(self.num_tiles)) - 2 * PAD
         height = int(self.cget('height')) - 2 * PAD
 
         for i, value in enumerate(values):
@@ -41,17 +42,18 @@ class CameraFrame(Widget, Canvas):
             self.items.append(id)
 
 class CameraStack(Widget, Frame):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, parent=None, num_tiles=128, num_frames=64, *args, **kwargs):
         Widget.__init__(self)
-        Frame.__init__(self, *args, **kwargs)
+        Frame.__init__(self, parent, *args, **kwargs)
 
-        self.num_frames = 64
+        self.num_frames = num_frames
+        self.num_tiles = num_tiles
         self.frames = {}
 
     def _create_frame(self, pos):
         height = int(self.cget('height')) / self.num_frames
         
-        widget = CameraFrame(self, width=self.cget('width'), height=height)
+        widget = CameraFrame(self, num_tiles=self.num_tiles, width=self.cget('width'), height=height)
         widget.grid(row=pos)
         
         return widget
